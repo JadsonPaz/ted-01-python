@@ -1,9 +1,10 @@
 import csv
 
+
 # 1) LER O ARQUIVO CSV
 
-# Cada chamado vira uma lista simples: [protocolo, cliente, categoria,
-# atendente, prioridade, status, tempo_min]
+# Cada chamado vira uma tupla: (protocolo, cliente, categoria,
+# atendente, prioridade, status, tempo_min)
 
 def ler_arquivo():
     lista_chamados = []
@@ -11,7 +12,7 @@ def ler_arquivo():
     leitor = csv.DictReader(arquivo)
 
     for linha in leitor:
-        chamado = [
+        chamado = (
             linha["protocolo"],
             linha["cliente"],
             linha["categoria"],
@@ -19,7 +20,7 @@ def ler_arquivo():
             linha["prioridade"],
             linha["status"],
             int(linha["tempo_min"])
-        ]
+        )
         lista_chamados.append(chamado)
 
     arquivo.close()
@@ -28,6 +29,7 @@ def ler_arquivo():
 
 
 # 2) REMOVER CHAMADOS DUPLICADOS (mesmo protocolo)
+
 
 def remover_duplicados(lista_chamados):
     protocolos_vistos = set()
@@ -42,8 +44,8 @@ def remover_duplicados(lista_chamados):
     return lista_sem_duplicados
 
 
-
 # 3) CATEGORIAS MAIS FREQUENTES
+
 
 def contar_categorias(lista_chamados):
     # List comprehension: pega só a categoria de cada chamado
@@ -57,6 +59,7 @@ def contar_categorias(lista_chamados):
 
 
 # 4) DESEMPENHO DOS ATENDENTES (volume e tempo médio)
+
 
 def desempenho_atendentes(lista_chamados):
     tempos_por_atendente = {}
@@ -80,13 +83,14 @@ def desempenho_atendentes(lista_chamados):
     return resultado
 
 
+
 # 5) CLIENTES EM COMUM ENTRE DUAS CATEGORIAS (usando set)
+
 
 def clientes_da_categoria(lista_chamados, categoria):
     # List comprehension: pega os clientes de uma categoria específica
     clientes = [chamado[1] for chamado in lista_chamados if chamado[2] == categoria]
     return set(clientes)
-
 
 
 # PROGRAMA PRINCIPAL
@@ -139,3 +143,4 @@ print("Clientes em comum:", em_comum)
 print("Só em", categoria_a, ":", len(somente_a), "clientes")
 print("Só em", categoria_b, ":", len(somente_b), "clientes")
 print("Total de clientes envolvidos (união):", len(todos_juntos))
+
